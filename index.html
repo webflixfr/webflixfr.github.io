@@ -6,7 +6,6 @@
 <title>Webflix - Adresse officielle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Remplacement de Syne par Poppins pour un rendu beaucoup plus propre et moins étiré -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,7 +36,6 @@
     position: relative;
   }
 
-  /* ── Animated aurora background ── */
   .aurora {
     position: fixed;
     inset: 0;
@@ -82,7 +80,6 @@
   @keyframes drift2 { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(-6%,-8%) scale(1.08)} }
   @keyframes drift3 { 0%{transform:translateX(-50%) scale(1)} 100%{transform:translateX(-45%) scale(1.15)} }
 
-  /* ── Grid overlay ── */
   .grid-overlay {
     position: fixed;
     inset: 0;
@@ -94,7 +91,6 @@
     background-size: 60px 60px;
   }
 
-  /* ── Noise grain ── */
   .grain {
     position: fixed;
     inset: 0;
@@ -117,7 +113,6 @@
     padding: 2rem 1.5rem;
   }
 
-  /* ── Header / Logo ── */
   .logo-wrap {
     display: flex;
     align-items: center;
@@ -129,8 +124,8 @@
   .logo-img {
     width: 48px;
     height: 48px;
-    object-fit: contain; /* Empêche l'image de se déformer */
-    border-radius: 8px; /* Léger arrondi optionnel */
+    object-fit: contain;
+    border-radius: 8px;
   }
   .logo-name {
     font-family: 'Poppins', sans-serif;
@@ -142,7 +137,6 @@
     background-clip: text;
   }
 
-  /* ── Main card ── */
   .card {
     width: 100%;
     max-width: 680px;
@@ -176,7 +170,6 @@
     pointer-events: none;
   }
 
-  /* ── Status pill ── */
   .status-row {
     display: flex;
     justify-content: center;
@@ -216,7 +209,6 @@
     50% { transform: scale(1.8); opacity: 0; }
   }
 
-  /* ── Headline ── */
   .headline {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
@@ -237,7 +229,6 @@
     line-height: 1.6;
   }
 
-  /* ── URL display box ── */
   .url-box {
     background: rgba(0,0,0,0.35);
     border: 1px solid var(--border-url);
@@ -297,7 +288,6 @@
   }
   .copy-icon { width: 15px; height: 15px; }
 
-  /* ── CTA Button ── */
   .cta-btn {
     display: block;
     width: 100%;
@@ -345,7 +335,6 @@
   }
   .cta-btn:hover .arrow-icon { transform: translateX(4px); }
 
-  /* ── Bookmark Tip (Ctrl+D) ── */
   .bookmark-tip {
     display: flex;
     align-items: center;
@@ -370,7 +359,6 @@
     box-shadow: 0 2px 0 rgba(0,0,0,0.2);
   }
 
-  /* ── Footer note ── */
   .footer-note {
     display: flex;
     align-items: center;
@@ -383,7 +371,6 @@
   }
   .footer-sep { color: rgba(168,85,247,0.4); }
 
-  /* ── Social / X Link ── */
   .social-links {
     margin-top: 2rem;
     display: flex;
@@ -414,7 +401,6 @@
     height: 18px;
   }
 
-  /* ── Bottom tagline ── */
   .tagline {
     margin-top: 1.5rem;
     text-align: center;
@@ -425,13 +411,11 @@
     animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.45s forwards;
   }
 
-  /* ── Animations ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(22px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── Responsive ── */
   @media (max-width: 520px) {
     .card { padding: 2.2rem 1.5rem 2rem; border-radius: 22px; }
     .logo-wrap { margin-bottom: 2.5rem; }
@@ -453,13 +437,11 @@
 
 <div class="page">
 
-  <!-- Logo -->
   <div class="logo-wrap">
     <img src="webflix.png" alt="Logo Webflix" class="logo-img">
     <span class="logo-name">Webflix</span>
   </div>
 
-  <!-- Main card -->
   <div class="card">
 
     <div class="status-row">
@@ -472,7 +454,6 @@
     <h1 class="headline">L'adresse officielle</h1>
     <p class="subline">URL vérifiée et mise à jour en temps réel.<br>Méfiez-vous des copies non officielles.</p>
 
-    <!-- URL display -->
     <div class="url-box">
       <span class="url-text">
         <span class="url-https">https://</span><span id="url-domain">webflix.lol</span>
@@ -486,7 +467,6 @@
       </button>
     </div>
 
-    <!-- CTA -->
     <a class="cta-btn" id="accessBtn" href="https://webflix.lol" target="_blank" rel="noopener">
       <span class="cta-inner">
         Accéder à Webflix
@@ -496,7 +476,6 @@
       </span>
     </a>
 
-    <!-- Astuce Favoris -->
     <div class="bookmark-tip">
       <kbd>Ctrl</kbd> + <kbd>D</kbd> pour ajouter aux favoris et toujours garder l'accès
     </div>
@@ -509,7 +488,6 @@
 
   </div>
 
-  <!-- Social Links -->
   <div class="social-links">
     <a href="https://x.com/Webflix_fr" target="_blank" rel="noopener" class="social-icon" aria-label="Suivez-nous sur X">
       <svg viewBox="0 0 24 24" fill="currentColor">
@@ -523,15 +501,12 @@
 </div>
 
 <script>
-  /* ── Config : changez l'URL ici ── */
   const CURRENT_URL = 'https://webflix.lol';
 
-  /* Apply URL to DOM */
   const domain = CURRENT_URL.replace(/^https?:\/\//, '');
   document.getElementById('url-domain').textContent = domain;
   document.getElementById('accessBtn').href = CURRENT_URL;
 
-  /* Copy to clipboard */
   function copyURL() {
     navigator.clipboard.writeText(CURRENT_URL).then(() => {
       const btn = document.getElementById('copyBtn');
@@ -545,7 +520,6 @@
     });
   }
 
-  /* Subtle floating particles */
   const canvas = document.createElement('canvas');
   canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.45';
   document.body.prepend(canvas);

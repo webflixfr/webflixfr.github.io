@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webflix - Adresse officielle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Remplacement de Syne par Poppins pour un rendu beaucoup plus propre et moins étiré -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --purple-deep: #0d0010;
+    --purple-dark: #150020;
+    --purple-mid: #3b0070;
+    --purple-vivid: #7c3aed;
+    --purple-bright: #a855f7;
+    --purple-light: #d8b4fe;
+    --purple-glow: #c084fc;
+    --white: #ffffff;
+    --white-dim: rgba(255,255,255,0.7);
+    --white-faint: rgba(255,255,255,0.08);
+    --border-glass: rgba(168,85,247,0.25);
+    --border-url: rgba(168,85,247,0.4);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--purple-deep);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── Animated aurora background ── */
+  .aurora {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .aurora::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: -20%;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(ellipse, rgba(124,58,237,0.45) 0%, transparent 70%);
+    animation: drift1 14s ease-in-out infinite alternate;
+    border-radius: 50%;
+  }
+  .aurora::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    right: -20%;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(ellipse, rgba(168,85,247,0.35) 0%, transparent 70%);
+    animation: drift2 18s ease-in-out infinite alternate;
+    border-radius: 50%;
+  }
+  .aurora-mid {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 50%;
+    background: radial-gradient(ellipse, rgba(192,132,252,0.12) 0%, transparent 70%);
+    animation: drift3 22s ease-in-out infinite alternate;
+    border-radius: 50%;
+  }
+  @keyframes drift1 { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(8%,6%) scale(1.12)} }
+  @keyframes drift2 { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(-6%,-8%) scale(1.08)} }
+  @keyframes drift3 { 0%{transform:translateX(-50%) scale(1)} 100%{transform:translateX(-45%) scale(1.15)} }
+
+  /* ── Grid overlay ── */
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(168,85,247,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(168,85,247,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* ── Noise grain ── */
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* ── Layout ── */
+  .page {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+  }
+
+  /* ── Header / Logo ── */
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
+  }
+  .logo-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain; /* Empêche l'image de se déformer */
+    border-radius: 8px; /* Léger arrondi optionnel */
+  }
+  .logo-name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #ffffff 0%, var(--purple-glow) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Main card ── */
+  .card {
+    width: 100%;
+    max-width: 680px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border-glass);
+    border-radius: 28px;
+    padding: 3rem 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(168,85,247,0.6), transparent);
+  }
+  .card::after {
+    content: '';
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 160px;
+    background: radial-gradient(ellipse, rgba(124,58,237,0.3) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── Status pill ── */
+  .status-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.35);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--purple-light);
+  }
+  .pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #a855f7;
+    position: relative;
+  }
+  .pulse-dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: rgba(168,85,247,0.4);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.8); opacity: 0; }
+  }
+
+  /* ── Headline ── */
+  .headline {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, #ffffff 0%, #e9d5ff 60%, var(--purple-glow) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subline {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+
+  /* ── URL display box ── */
+  .url-box {
+    background: rgba(0,0,0,0.35);
+    border: 1px solid var(--border-url);
+    border-radius: 16px;
+    padding: 1.2rem 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    transition: border-color 0.3s;
+  }
+  .url-box:hover { border-color: rgba(168,85,247,0.65); }
+
+  .url-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1rem, 3.5vw, 1.35rem);
+    font-weight: 600;
+    color: var(--white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+  }
+  .url-https {
+    color: rgba(168,85,247,0.7);
+  }
+
+  .copy-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(124,58,237,0.2);
+    border: 1px solid rgba(124,58,237,0.4);
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--purple-light);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .copy-btn:hover {
+    background: rgba(124,58,237,0.35);
+    border-color: rgba(168,85,247,0.6);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .copy-btn:active { transform: scale(0.97); }
+  .copy-btn.copied {
+    background: rgba(34,197,94,0.15);
+    border-color: rgba(34,197,94,0.4);
+    color: #86efac;
+  }
+  .copy-icon { width: 15px; height: 15px; }
+
+  /* ── CTA Button ── */
+  .cta-btn {
+    display: block;
+    width: 100%;
+    padding: 1.05rem 2rem;
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+    border: none;
+    border-radius: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+    text-decoration: none;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(124,58,237,0.5);
+  }
+  .cta-btn:hover::before { opacity: 1; }
+  .cta-btn:active { transform: translateY(0) scale(0.99); }
+
+  .cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .arrow-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s;
+  }
+  .cta-btn:hover .arrow-icon { transform: translateX(4px); }
+
+  /* ── Bookmark Tip (Ctrl+D) ── */
+  .bookmark-tip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 2rem;
+    padding: 10px 15px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .bookmark-tip kbd {
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+  }
+
+  /* ── Footer note ── */
+  .footer-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.3);
+  }
+  .footer-sep { color: rgba(168,85,247,0.4); }
+
+  /* ── Social / X Link ── */
+  .social-links {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.35s forwards;
+  }
+  .social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    color: var(--white);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .social-icon:hover {
+    background: var(--purple-vivid);
+    border-color: var(--purple-light);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(124,58,237,0.3);
+  }
+  .social-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ── Bottom tagline ── */
+  .tagline {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.02em;
+    opacity: 0;
+    animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.45s forwards;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 520px) {
+    .card { padding: 2.2rem 1.5rem 2rem; border-radius: 22px; }
+    .logo-wrap { margin-bottom: 2.5rem; }
+    .url-box { flex-direction: column; align-items: flex-start; }
+    .copy-btn { align-self: stretch; justify-content: center; }
+    .footer-note { flex-direction: column; gap: 8px; text-align: center; }
+    .footer-sep { display: none; }
+    .bookmark-tip { font-size: 0.75rem; flex-wrap: wrap; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora">
+  <div class="aurora-mid"></div>
+</div>
+<div class="grid-overlay"></div>
+<div class="grain"></div>
+
+<div class="page">
+
+  <!-- Logo -->
+  <div class="logo-wrap">
+    <!-- Ton image logo personnalisée, elle doit être nommée web.png -->
+    <img src="web.png" alt="Logo Webflix" class="logo-img">
+    <span class="logo-name">Webflix</span>
+  </div>
+
+  <!-- Main card -->
+  <div class="card">
+
+    <div class="status-row">
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        Adresse active
+      </div>
+    </div>
+
+    <h1 class="headline">L'adresse officielle</h1>
+    <p class="subline">URL vérifiée et mise à jour en temps réel.<br>Méfiez-vous des copies non officielles.</p>
+
+    <!-- URL display -->
+    <div class="url-box">
+      <span class="url-text">
+        <span class="url-https">https://</span><span id="url-domain">webflix.lol</span>
+      </span>
+      <button class="copy-btn" id="copyBtn" onclick="copyURL()">
+        <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
+        <span id="copyLabel">Copier</span>
+      </button>
+    </div>
+
+    <!-- CTA -->
+    <a class="cta-btn" id="accessBtn" href="https://webflix.lol" target="_blank" rel="noopener">
+      <span class="cta-inner">
+        Accéder à Webflix
+        <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </span>
+    </a>
+
+    <!-- Astuce Favoris -->
+    <div class="bookmark-tip">
+      <kbd>Ctrl</kbd> + <kbd>D</kbd> pour ajouter aux favoris et toujours garder l'accès
+    </div>
+
+    <div class="footer-note">
+      <span>Mise à jour auto</span>
+      <span class="footer-sep">•</span>
+      <span>Vérifié en temps réel</span>
+    </div>
+
+  </div>
+
+  <!-- Social Links -->
+  <div class="social-links">
+    <a href="https://x.com/Webflix_fr" target="_blank" rel="noopener" class="social-icon" aria-label="Suivez-nous sur X">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+    </a>
+  </div>
+
+  <p class="tagline">© Webflix - Site officiel de redirection</p>
+
+</div>
+
+<script>
+  /* ── Config : changez l'URL ici ── */
+  const CURRENT_URL = 'https://webflix.lol';
+
+  /* Apply URL to DOM */
+  const domain = CURRENT_URL.replace(/^https?:\/\//, '');
+  document.getElementById('url-domain').textContent = domain;
+  document.getElementById('accessBtn').href = CURRENT_URL;
+
+  /* Copy to clipboard */
+  function copyURL() {
+    navigator.clipboard.writeText(CURRENT_URL).then(() => {
+      const btn = document.getElementById('copyBtn');
+      const lbl = document.getElementById('copyLabel');
+      btn.classList.add('copied');
+      lbl.textContent = 'Copié !';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        lbl.textContent = 'Copier';
+      }, 2200);
+    });
+  }
+
+  /* Subtle floating particles */
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.45';
+  document.body.prepend(canvas);
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const particles = Array.from({length: 28}, () => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.8 + 0.5,
+    vx: (Math.random() - 0.5) * 0.18,
+    vy: (Math.random() - 0.5) * 0.18,
+    alpha: Math.random() * 0.5 + 0.15,
+  }));
+
+  function animParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(168,85,247,${p.alpha})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(animParticles);
+  }
+  animParticles();
+</script>
+</body>
+</html>
